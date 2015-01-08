@@ -103,9 +103,9 @@ class Httpauth
                 break;
         }
 
-        // check if at leat username and password is set
-        if ( ! $this->username || ! $this->password) {
-            throw new Exception('No username or password set for HttpAuthentication.');
+        // check if at least username and password is set for none digest authentication
+        if (strtolower($this->type) !=  'digest' && (! $this->username || ! $this->password)) {
+            throw new Exception('No username or password set for none Digest Authentication.');
         }
     }
 

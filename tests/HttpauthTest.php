@@ -40,5 +40,17 @@ class HttpauthTest extends PHPUnit_Framework_Testcase
         $this->assertTrue($httpauth->isValid($config['username'], $config['password']));
     }
 
+    /**
+     * Contsruction when type is digest and username/password is not provided should succeed
+     */
+    public function testContsructDigestWithoutCredentials()
+    {
+        $config = array(
+            'type' => 'digest',
+            'realm' => 'Test Realm'
+        );
+        $httpauth = new Httpauth($config);
+        $this->assertInstanceOf('\Intervention\Httpauth\Httpauth', $httpauth);
+    }
 
 }
