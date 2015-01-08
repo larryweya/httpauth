@@ -31,16 +31,18 @@ class BasicUser implements UserInterface
      *
      * @param  string  $name
      * @param  string  $password
+     * @param  string  $realm
+     * @param  Closure $ha1_callabck
      * @return boolean
      */
-    public function isValid($name, $password, $realm = null)
+    public function isValid($name, $password, $realm = null, $ha1_callabck = null)
     {
         return ($name == $this->name) && ($password == $this->password);
     }
 
     /**
      * Parses the User Information from server variables
-
+     *
      * @return void
      */
     public function parse()

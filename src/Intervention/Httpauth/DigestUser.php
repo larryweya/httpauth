@@ -66,19 +66,21 @@ class DigestUser implements UserInterface
      * @param  string  $password
      * @return boolean
      */
-    public function isValid($name, $password, $realm)
+    public function isValid($name = null, $password = null, $realm = null, $ha1_callback)
     {
         $request_method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
-        $u1 = md5(sprintf('%s:%s:%s', $this->username, $realm, $password));
+
+        // use the callback to get our u1 value for the requesting user
+        $u1 = $ha1_callback($this->username);
         $u2 = md5(sprintf('%s:%s', $request_method, $this->uri));
         $response = md5(sprintf('%s:%s:%s:%s:%s:%s', $u1, $this->nonce, $this->nc, $this->cnonce, $this->qop, $u2));
 
-        return ($response == $this->response) && ($name == $this->username);
+        return ($response == $this->response);
     }
 
     /**
      * Parses the User Information from server variables
-
+     *
      * @return void
      */
     public function parse()

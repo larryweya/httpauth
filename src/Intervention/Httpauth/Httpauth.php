@@ -123,11 +123,13 @@ class Httpauth
     /**
      * Denies access for not-authenticated users
      *
+     * @param Closure $ha1_callback Function to return the HA1 of the digest i.e. md5(<username>:<realm>:password)
+     *
      * @return void
      */
-    public function secure()
+    public function secure($ha1_callback = null)
     {
-        if ( ! $this->validateUser($this->user)) {
+        if ( ! $this->validateUser($this->user, $ha1_callback)) {
             $this->denyAccess();
         }
     }
@@ -136,11 +138,12 @@ class Httpauth
      * Checks for valid user
      *
      * @param  User $user
+     * @param  Closure $ha1_callback Function to return the user's md5(<username>:<realm>:password)
      * @return bool
      */
-    private function validateUser(UserInterface $user)
+    private function validateUser(UserInterface $user, Closure $ha1_callback = null)
     {
-        return $user->isValid($this->username, $this->password, $this->realm);
+        return $user->isValid($this->username, $this->password, $this->realm, $ha1_callback);
     }
 
     /**
