@@ -68,8 +68,6 @@ class Httpauth
 
         // basic settings from config files
         $this->type = $this->config->get($this->getConfigKey('httpauth.type'));
-        print_r($this->type);
-        die("Dead");
         $this->realm = $this->config->get($this->getConfigKey('httpauth.realm'));
         $this->username = $this->config->get($this->getConfigKey('httpauth.username'));
         $this->password = $this->config->get($this->getConfigKey('httpauth.password'));
@@ -145,7 +143,6 @@ class Httpauth
      */
     private function validateUser(UserInterface $user, \Closure $ha1_callback = null)
     {
-        var_dump($user);
         return $user->isValid($this->username, $this->password, $this->realm, $ha1_callback);
     }
 
